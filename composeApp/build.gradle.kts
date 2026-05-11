@@ -7,6 +7,9 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    //KotlinSerialization
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
 }
 
 kotlin {
@@ -20,6 +23,8 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
+            //Cliente HTTP
+            implementation(libs.ktor.client.okhttp)
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
         }
@@ -32,6 +37,22 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            // HTTP + JSON
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.kotlinx.serialization.json)
+            // Room KMP
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
+            // Plugins de Ktor
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.auth)
+            // Navegación
+            implementation(libs.navigation.compose)
+
+            // Iconos extendidos
+            implementation(compose.materialIconsExtended)
+            implementation(libs.androidx.savedstate)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -39,10 +60,15 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
+            implementation(libs.ktor.client.cio) //Motor Http para desktop
         }
     }
 }
-
+// KSP para Room -  por plataforma
+dependencies {
+    add("kspAndroid", libs.room.compiler)
+    add("kspJvm", libs.room.compiler)
+}
 android {
     namespace = "com.example.sicenetmultiplatform"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
