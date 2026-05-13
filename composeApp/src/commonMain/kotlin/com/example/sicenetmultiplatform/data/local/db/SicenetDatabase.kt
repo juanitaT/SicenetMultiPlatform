@@ -5,7 +5,6 @@ import androidx.room.RoomDatabase
 import com.example.sicenetmultiplatform.data.local.dao.CalificacionDao
 import com.example.sicenetmultiplatform.data.local.dao.CardexDao
 import com.example.sicenetmultiplatform.data.local.dao.CargaAcademicaDao
-import com.example.sicenetmultiplatform.data.local.dao.PerfilDao
 import com.example.sicenetmultiplatform.data.local.entity.CalificacionFinalEntity
 import com.example.sicenetmultiplatform.data.local.entity.CalificacionUnidadEntity
 import com.example.sicenetmultiplatform.data.local.entity.CardexEntity
