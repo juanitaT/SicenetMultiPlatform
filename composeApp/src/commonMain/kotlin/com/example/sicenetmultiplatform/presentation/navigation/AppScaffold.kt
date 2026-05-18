@@ -1,4 +1,4 @@
-package com.example.sicenetmultiplatform.utils.presentation.navigation
+package com.example.sicenetmultiplatform.presentation.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sicenetmultiplatform.SessionManager
-//import com.example.sicenetmultiplatform.SessionManager
 import kotlinx.coroutines.launch
 
 private val GreenPrimary = Color(0xFF2E7D32)
@@ -45,14 +44,17 @@ fun AppScaffold(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                DrawerContent(
+                _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.DrawerContent(
                     onNavigate = { route ->
                         scope.launch { drawerState.close() }
-                        if (route == Routes.LOGIN) {
+                        if (route == _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.LOGIN) {
                             showLogoutDialog = true
                         } else {
                             navController.navigate(route) {
-                                popUpTo(Routes.PERFIL) { inclusive = false }
+                                popUpTo(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.PERFIL) {
+                                    _root_ide_package_.androidx.navigation.PopUpToBuilder.inclusive =
+                                        false
+                                }
                             }
                         }
                     }
@@ -80,7 +82,7 @@ fun AppScaffold(
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor     = GreenPrimary,
+                        containerColor     = _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.GreenPrimary,
                         titleContentColor  = Color.White
                     )
                 )
@@ -100,7 +102,7 @@ fun AppScaffold(
                 Text(
                     text = "Cerrar Sesión",
                     fontWeight = FontWeight.Bold,
-                    color = GreenPrimary
+                    color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.GreenPrimary
                 )
             },
             text = { Text("¿Está seguro que desea cerrar sesión?") },
@@ -108,11 +110,11 @@ fun AppScaffold(
                 TextButton(onClick = {
                     showLogoutDialog = false
                     SessionManager.cerrarSesion()
-                    navController.navigate(Routes.LOGIN) {
+                    navController.navigate(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.LOGIN) {
                         popUpTo(0) { inclusive = true }
                     }
                 }) {
-                    Text("Cerrar Sesión", color = GreenPrimary)
+                    Text("Cerrar Sesión", color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.GreenPrimary)
                 }
             },
             dismissButton = {
@@ -140,7 +142,11 @@ private fun DrawerContent(onNavigate: (String) -> Unit) {
                 .height(180.dp)
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = listOf(GreenDark, GreenPrimary, GreenLight)
+                        colors = listOf(
+                            _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.GreenDark,
+                            _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.GreenPrimary,
+                            _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.GreenLight
+                        )
                     )
                 ),
             contentAlignment = Alignment.Center
@@ -169,22 +175,34 @@ private fun DrawerContent(onNavigate: (String) -> Unit) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        DrawerItem(Icons.Default.Person,     "Perfil",           { onNavigate(Routes.PERFIL) })
-        DrawerItem(Icons.Default.School,     "Carga Académica",  { onNavigate(Routes.CARGA) })
-        DrawerItem(Icons.Default.Assignment, "Cardex",           { onNavigate(Routes.CARDEX) })
-        DrawerItem(Icons.Default.Grade,      "Calificaciones",   { onNavigate(Routes.CALIFICACIONES) })
+        _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.DrawerItem(
+            Icons.Default.Person,
+            "Perfil",
+            { onNavigate(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.PERFIL) })
+        _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.DrawerItem(
+            Icons.Default.School,
+            "Carga Académica",
+            { onNavigate(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.CARGA) })
+        _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.DrawerItem(
+            Icons.Default.Assignment,
+            "Cardex",
+            { onNavigate(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.CARDEX) })
+        _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.DrawerItem(
+            Icons.Default.Grade,
+            "Calificaciones",
+            { onNavigate(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.CALIFICACIONES) })
 
         Spacer(modifier = Modifier.weight(1f))
 
         Divider(
-            color = GreenLight.copy(alpha = 0.3f),
+            color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.GreenLight.copy(alpha = 0.3f),
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        DrawerItem(
-            icon    = Icons.Default.ExitToApp,
-            texto   = "Cerrar Sesión",
-            onClick = { onNavigate(Routes.LOGIN) },
+        _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.DrawerItem(
+            icon = Icons.Default.ExitToApp,
+            texto = "Cerrar Sesión",
+            onClick = { onNavigate(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.LOGIN) },
             isLogout = true
         )
 
@@ -200,7 +218,7 @@ private fun DrawerItem(
     isLogout: Boolean = false
 ) {
     val textColor = if (isLogout) Color(0xFFD32F2F) else Color.Black
-    val iconColor = if (isLogout) Color(0xFFD32F2F) else GreenPrimary
+    val iconColor = if (isLogout) Color(0xFFD32F2F) else _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.GreenPrimary
 
     Row(
         modifier = Modifier

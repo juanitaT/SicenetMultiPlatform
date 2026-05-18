@@ -2,6 +2,8 @@ package com.example.sicenetmultiplatform.data.local.mapper
 
 import com.example.sicenetmultiplatform.data.model.CalificacionFinal
 import com.example.sicenetmultiplatform.data.model.CalificacionUnidad
+import com.example.sicenetmultiplatform.utils.extraerContenidoXml
+import com.example.sicenetmultiplatform.utils.getCurrentTimeMillis
 import kotlinx.serialization.json.*
 
 object CalificacionesXmlParser {

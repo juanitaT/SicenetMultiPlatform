@@ -1,4 +1,4 @@
-package com.example.sicenetmultiplatform.utils.presentation.components
+package com.example.sicenetmultiplatform.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -38,7 +38,7 @@ fun CardexItem(materia: CardexEntity) {
 
     val statusColor = when {
         enCurso    -> Color.Gray
-        acreditado -> GreenPrimary
+        acreditado -> _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.GreenPrimary
         else       -> Color(0xFFC62828)
     }
 

@@ -1,4 +1,4 @@
-package com.example.sicenetmultiplatform.utils.presentation.navigation
+package com.example.sicenetmultiplatform.presentation.navigation
 
 object Routes {
     const val LOGIN          = "login"

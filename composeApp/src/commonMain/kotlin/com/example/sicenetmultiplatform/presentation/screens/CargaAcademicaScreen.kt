@@ -1,5 +1,4 @@
-package com.example.sicenetmultiplatform.utils.presentation.screens
-
+package com.example.sicenetmultiplatform.presentation.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,10 +14,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sicenetmultiplatform.utils.presentation.components.CardexItem
-import com.example.sicenetmultiplatform.utils.presentation.viewmodel.CardexViewModel
-//import com.example.sicenetmultiplatform.presentation.components.CardexItem
-//import com.example.sicenetmultiplatform.presentation.viewmodel.CardexViewModel
+import com.example.sicenetmultiplatform.presentation.components.CargaAcademicaItem
+import com.example.sicenetmultiplatform.presentation.viewmodel.CargaAcademicaViewModel
+//import com.example.sicenetmultiplatform.presentation.components.CargaAcademicaItem
+//import com.example.sicenetmultiplatform.presentation.viewmodel.CargaAcademicaViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,21 +26,21 @@ private val GreenLight   = Color(0xFF4CAF50)
 private val GreenDark    = Color(0xFF1B5E20)
 
 /**
- * Pantalla del kardex académico del alumno.
- * Basada en CardexScreen.kt del proyecto Android original.
+ * Pantalla de carga académica del alumno.
+ * Basada en CargaAcademicaScreen.kt del proyecto Android original.
  *
- *
+ * @author
  */
 @Composable
-fun CardexScreen(viewModel: CardexViewModel) {
+fun CargaAcademicaScreen(viewModel: com.example.sicenetmultiplatform.presentation.viewmodel.CargaAcademicaViewModel) {
 
     LaunchedEffect(Unit) {
         viewModel.verificarYSincronizar()
     }
 
-    val cardex              by viewModel.cardex.collectAsState()
+    val carga             by viewModel.carga.collectAsState()
     val ultimaActualizacion by viewModel.ultimaActualizacion.collectAsState()
-    val isLoading           by viewModel.isLoading.collectAsState()
+    val isLoading         by viewModel.isLoading.collectAsState()
 
     Box(
         modifier = Modifier
@@ -57,7 +56,11 @@ fun CardexScreen(viewModel: CardexViewModel) {
                         .fillMaxWidth()
                         .background(
                             brush = Brush.verticalGradient(
-                                colors = listOf(GreenDark, GreenPrimary, GreenLight)
+                                colors = listOf(
+                                    _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenDark,
+                                    _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
+                                    _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight
+                                )
                             ),
                             shape = RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp)
                         )
@@ -68,7 +71,7 @@ fun CardexScreen(viewModel: CardexViewModel) {
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = "📋 Kárdex Académico",
+                            text = "📚 Carga Académica",
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold,
                             color = Color.White,
@@ -77,6 +80,7 @@ fun CardexScreen(viewModel: CardexViewModel) {
 
                         Spacer(modifier = Modifier.height(6.dp))
 
+                        // Última actualización
                         ultimaActualizacion?.let {
                             val fmt = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
                             Text(
@@ -87,18 +91,29 @@ fun CardexScreen(viewModel: CardexViewModel) {
                             )
                         }
 
-                        // Chips resumen
-                        if (cardex.isNotEmpty()) {
+                        // Chips de estadísticas
+                        if (carga.isNotEmpty()) {
                             Spacer(modifier = Modifier.height(20.dp))
-                            val aprobadas  = cardex.count { it.calificacion >= 70 }
-                            val reprobadas = cardex.size - aprobadas
+                            val totalCreditos = carga.sumOf { it.creditos }
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceEvenly
                             ) {
-                                CardexStatChip("Total",        "${cardex.size}", Color.White)
-                                CardexStatChip("Aprobadas",    "$aprobadas",     Color(0xFFA5D6A7))
-                                CardexStatChip("No aprobadas", "$reprobadas",    Color(0xFFEF9A9A))
+                                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CargaStatChip(
+                                    "Materias",
+                                    "${carga.size}",
+                                    Color.White
+                                )
+                                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CargaStatChip(
+                                    "Créditos",
+                                    "$totalCreditos",
+                                    Color(0xFFA5D6A7)
+                                )
+                                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CargaStatChip(
+                                    "Semestre",
+                                    carga.firstOrNull()?.semestre?.toString() ?: "-",
+                                    Color(0xFFE3F2FD)
+                                )
                             }
                         }
                     }
@@ -108,7 +123,7 @@ fun CardexScreen(viewModel: CardexViewModel) {
             item { Spacer(modifier = Modifier.height(16.dp)) }
 
             // Estado de carga o lista
-            if (cardex.isEmpty() || isLoading) {
+            if (carga.isEmpty() || isLoading) {
                 item {
                     Box(
                         modifier = Modifier
@@ -118,13 +133,13 @@ fun CardexScreen(viewModel: CardexViewModel) {
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             CircularProgressIndicator(
-                                color = GreenPrimary,
+                                color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
                                 modifier = Modifier.size(56.dp)
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                text = "Cargando kárdex...",
-                                color = GreenPrimary,
+                                text = "Cargando materias...",
+                                color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
                                 fontWeight = FontWeight.Medium,
                                 fontSize = 16.sp
                             )
@@ -132,8 +147,10 @@ fun CardexScreen(viewModel: CardexViewModel) {
                     }
                 }
             } else {
-                items(cardex) { materia ->
-                    CardexItem(materia)
+                items(carga) { materia ->
+                    _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.CargaAcademicaItem(
+                        materia
+                    )
                 }
                 item { Spacer(modifier = Modifier.height(16.dp)) }
             }
@@ -143,7 +160,7 @@ fun CardexScreen(viewModel: CardexViewModel) {
 
 // Chip de estadística en el header
 @Composable
-private fun CardexStatChip(label: String, value: String, chipColor: Color) {
+private fun CargaStatChip(label: String, value: String, chipColor: Color) {
     Card(
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(

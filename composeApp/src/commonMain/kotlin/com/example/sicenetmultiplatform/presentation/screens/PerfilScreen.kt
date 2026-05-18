@@ -1,4 +1,4 @@
-package com.example.sicenetmultiplatform.utils.presentation.screens
+package com.example.sicenetmultiplatform.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sicenetmultiplatform.utils.presentation.viewmodel.PerfilViewModel
+import com.example.sicenetmultiplatform.presentation.viewmodel.PerfilViewModel
 
 //import com.example.sicenetmultiplatform.presentation.viewmodel.PerfilViewModel
 
@@ -28,7 +28,7 @@ private val GreenDark    = Color(0xFF1B5E20)
  * Basada en PerfilScreen.kt del proyecto Android original.
  */
 @Composable
-fun PerfilScreen(viewModel: PerfilViewModel) {
+fun PerfilScreen(viewModel: com.example.sicenetmultiplatform.presentation.viewmodel.PerfilViewModel) {
 
     val perfil by viewModel.perfil.collectAsState()
 
@@ -37,7 +37,11 @@ fun PerfilScreen(viewModel: PerfilViewModel) {
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(GreenDark, GreenPrimary, GreenLight)
+                    colors = listOf(
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenDark,
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight
+                    )
                 )
             )
     ) {
@@ -93,61 +97,61 @@ fun PerfilScreen(viewModel: PerfilViewModel) {
                 ) {
                     Column(modifier = Modifier.padding(32.dp)) {
 
-                        PerfilItem(
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
                             label = "Nombre",
                             valor = p.nombre,
                             valorSize = 24,
-                            valorColor = GreenPrimary,
+                            valorColor = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
                             valorWeight = FontWeight.Bold
                         )
 
-                        PerfilDivider()
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
 
-                        PerfilItem(
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
                             label = "Matrícula",
                             valor = p.matricula
                         )
 
-                        PerfilDivider()
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
 
-                        PerfilItem(
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
                             label = "Carrera",
                             valor = p.carrera,
                             valorSize = 18
                         )
 
-                        PerfilDivider()
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
 
-                        PerfilItem(
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
                             label = "Semestre Actual",
                             valor = p.semActual.toString()
                         )
 
-                        PerfilDivider()
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
 
-                        PerfilItem(
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
                             label = "Especialidad",
                             valor = p.especialidad,
                             valorSize = 18
                         )
 
-                        PerfilDivider()
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
 
-                        PerfilItem(
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
                             label = "Créditos Acumulados",
                             valor = p.cdtosAcumulados.toString()
                         )
 
-                        PerfilDivider()
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
 
-                        PerfilItem(
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
                             label = "Créditos Actuales",
                             valor = p.cdtosActuales.toString()
                         )
 
-                        PerfilDivider()
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
 
-                        PerfilItem(
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
                             label = "Estatus",
                             valor = p.estatus
                         )
@@ -173,7 +177,7 @@ private fun PerfilItem(
         Text(
             text = label,
             fontSize = 14.sp,
-            color = GreenPrimary.copy(alpha = 0.7f),
+            color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary.copy(alpha = 0.7f),
             fontWeight = FontWeight.Medium
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -192,7 +196,7 @@ private fun PerfilItem(
 private fun PerfilDivider() {
     Spacer(modifier = Modifier.height(24.dp))
     HorizontalDivider(
-        color = GreenLight.copy(alpha = 0.3f),
+        color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight.copy(alpha = 0.3f),
         thickness = 1.dp
     )
     Spacer(modifier = Modifier.height(24.dp))

@@ -1,4 +1,4 @@
-package com.example.sicenetmultiplatform.utils.presentation.viewmodel
+package com.example.sicenetmultiplatform.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

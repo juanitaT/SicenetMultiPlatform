@@ -1,10 +1,11 @@
-package com.example.sicenetmultiplatform.utils.presentation.viewmodel
+package com.example.sicenetmultiplatform.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sicenetmultiplatform.data.local.entity.CardexEntity
 import com.example.sicenetmultiplatform.data.repository.LocalRepository
 import com.example.sicenetmultiplatform.data.repository.NetworkRepository
+import com.example.sicenetmultiplatform.utils.getCurrentTimeMillis
 //import com.example.sicenetmultiplatform.data.local.entity.CardexEntity
 //import com.example.sicenetmultiplatform.data.repository.LocalRepository
 //import com.example.sicenetmultiplatform.data.repository.NetworkRepository

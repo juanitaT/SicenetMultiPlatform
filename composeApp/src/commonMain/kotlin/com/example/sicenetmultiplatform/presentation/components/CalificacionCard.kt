@@ -1,4 +1,4 @@
-package com.example.sicenetmultiplatform.utils.presentation.components
+package com.example.sicenetmultiplatform.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -117,7 +117,9 @@ fun CalificacionCard(
                         modifier = Modifier.weight(1f)
                     ) {
                         unidadesValidas.take(5).forEach { unidad ->
-                            UnidadBadge(unidad)
+                            _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.UnidadBadge(
+                                unidad
+                            )
                         }
                     }
 
@@ -153,7 +155,9 @@ fun CalificacionCard(
                                     .padding(start = 68.dp)
                             ) {
                                 unidadesValidas.drop(5).forEach { unidad ->
-                                    UnidadBadge(unidad)
+                                    _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.UnidadBadge(
+                                        unidad
+                                    )
                                 }
                             }
                         }

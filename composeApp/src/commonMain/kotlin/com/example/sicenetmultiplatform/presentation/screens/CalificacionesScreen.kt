@@ -1,4 +1,4 @@
-package com.example.sicenetmultiplatform.utils.presentation.screens
+package com.example.sicenetmultiplatform.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,8 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sicenetmultiplatform.utils.presentation.components.CalificacionCard
-import com.example.sicenetmultiplatform.utils.presentation.viewmodel.CalificacionesViewModel
+import com.example.sicenetmultiplatform.presentation.components.CalificacionCard
+import com.example.sicenetmultiplatform.presentation.viewmodel.CalificacionesViewModel
 
 //import com.example.sicenetmultiplatform.presentation.components.CalificacionCard
 //import com.example.sicenetmultiplatform.presentation.viewmodel.CalificacionesViewModel
@@ -33,7 +33,7 @@ private val GreenSurface = Color(0xFFF1F8F1)
  *
  */
 @Composable
-fun CalificacionesScreen(viewModel: CalificacionesViewModel) {
+fun CalificacionesScreen(viewModel: com.example.sicenetmultiplatform.presentation.viewmodel.CalificacionesViewModel) {
 
     LaunchedEffect(Unit) {
         viewModel.verificarYSincronizar()
@@ -46,7 +46,7 @@ fun CalificacionesScreen(viewModel: CalificacionesViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(GreenSurface)
+            .background(_root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenSurface)
     ) {
         if (finales.isEmpty() || isLoading) {
             // Estado de carga
@@ -56,14 +56,14 @@ fun CalificacionesScreen(viewModel: CalificacionesViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 CircularProgressIndicator(
-                    color = GreenPrimary,
+                    color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
                     modifier = Modifier.size(56.dp),
                     strokeWidth = 4.dp
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = "Cargando calificaciones...",
-                    color = GreenPrimary,
+                    color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp
                 )
@@ -78,7 +78,11 @@ fun CalificacionesScreen(viewModel: CalificacionesViewModel) {
                             .fillMaxWidth()
                             .background(
                                 brush = Brush.verticalGradient(
-                                    colors = listOf(GreenDark, GreenPrimary, GreenLight)
+                                    colors = listOf(
+                                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenDark,
+                                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
+                                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight
+                                    )
                                 ),
                                 shape = RoundedCornerShape(
                                     bottomStart = 28.dp,
@@ -122,9 +126,18 @@ fun CalificacionesScreen(viewModel: CalificacionesViewModel) {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceEvenly
                             ) {
-                                CalifHeaderChip("✅ Aprob.",  "$aprobadas")
-                                CalifHeaderChip("❌ Repro.",  "$reprobadas")
-                                CalifHeaderChip("⏳ Pend.",   "$pendientes")
+                                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CalifHeaderChip(
+                                    "✅ Aprob.",
+                                    "$aprobadas"
+                                )
+                                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CalifHeaderChip(
+                                    "❌ Repro.",
+                                    "$reprobadas"
+                                )
+                                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CalifHeaderChip(
+                                    "⏳ Pend.",
+                                    "$pendientes"
+                                )
                             }
                         }
                     }
@@ -137,9 +150,9 @@ fun CalificacionesScreen(viewModel: CalificacionesViewModel) {
                     val unidadesMateria = unidades.filter {
                         it.materia.equals(materiaFinal.materia, ignoreCase = true)
                     }
-                    CalificacionCard(
+                    _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.CalificacionCard(
                         materiaFinal = materiaFinal,
-                        unidades     = unidadesMateria
+                        unidades = unidadesMateria
                     )
                 }
 

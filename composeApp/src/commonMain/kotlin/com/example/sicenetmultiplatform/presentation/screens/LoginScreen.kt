@@ -1,4 +1,4 @@
-package com.example.sicenetmultiplatform.utils.presentation.screens
+package com.example.sicenetmultiplatform.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sicenetmultiplatform.utils.presentation.viewmodel.LoginViewModel
+import com.example.sicenetmultiplatform.presentation.viewmodel.LoginViewModel
 
 //import com.example.sicenetmultiplatform.presentation.viewmodel.LoginViewModel
 
@@ -35,7 +35,7 @@ private val GreenDark    = Color(0xFF1B5E20)
  */
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel,
+    viewModel: com.example.sicenetmultiplatform.presentation.viewmodel.LoginViewModel,
     onLoginSuccess: () -> Unit
 ) {
     var usuario  by remember { mutableStateOf("") }
@@ -49,7 +49,11 @@ fun LoginScreen(
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(GreenDark, GreenPrimary, GreenLight)
+                    colors = listOf(
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenDark,
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
+                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight
+                    )
                 )
             )
     ) {
@@ -79,13 +83,13 @@ fun LoginScreen(
                     Text(
                         text = "SICENET",
                         fontWeight = FontWeight.Bold,
-                        color = GreenPrimary,
+                        color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
                         fontSize = 42.sp,
                         letterSpacing = 2.sp
                     )
                     Text(
                         text = "Bienvenido",
-                        color = GreenPrimary.copy(alpha = 0.7f),
+                        color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary.copy(alpha = 0.7f),
                         fontSize = 16.sp
                     )
 
@@ -103,16 +107,16 @@ fun LoginScreen(
                             Icon(
                                 imageVector = Icons.Default.Person,
                                 contentDescription = "Usuario",
-                                tint = GreenPrimary
+                                tint = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary
                             )
                         },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor   = GreenPrimary,
-                            unfocusedBorderColor = GreenLight.copy(alpha = 0.5f),
-                            focusedLabelColor    = GreenPrimary,
-                            cursorColor          = GreenPrimary
+                            focusedBorderColor   = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
+                            unfocusedBorderColor = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight.copy(alpha = 0.5f),
+                            focusedLabelColor    = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
+                            cursorColor          = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary
                         ),
                         singleLine = true,
                         enabled = !isLoading
@@ -132,7 +136,7 @@ fun LoginScreen(
                             Icon(
                                 imageVector = Icons.Default.Lock,
                                 contentDescription = "Contraseña",
-                                tint = GreenPrimary
+                                tint = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary
                             )
                         },
                         visualTransformation = PasswordVisualTransformation(),
@@ -142,10 +146,10 @@ fun LoginScreen(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor   = GreenPrimary,
-                            unfocusedBorderColor = GreenLight.copy(alpha = 0.5f),
-                            focusedLabelColor    = GreenPrimary,
-                            cursorColor          = GreenPrimary
+                            focusedBorderColor   = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
+                            unfocusedBorderColor = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight.copy(alpha = 0.5f),
+                            focusedLabelColor    = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
+                            cursorColor          = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary
                         ),
                         singleLine = true,
                         enabled = !isLoading
@@ -178,7 +182,7 @@ fun LoginScreen(
                         },
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = GreenPrimary
+                            containerColor = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary
                         ),
                         elevation = ButtonDefaults.buttonElevation(
                             defaultElevation  = 4.dp,

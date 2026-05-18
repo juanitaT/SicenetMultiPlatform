@@ -1,4 +1,4 @@
-package com.example.sicenetmultiplatform.utils.presentation.components
+package com.example.sicenetmultiplatform.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -45,7 +45,7 @@ fun CargaAcademicaItem(materia: CargaAcademicaEntity) {
                     .width(5.dp)
                     .fillMaxHeight()
                     .clip(RoundedCornerShape(topStart = 16.dp, bottomStart = 16.dp))
-                    .background(GreenPrimary)
+                    .background(_root_ide_package_.com.example.sicenetmultiplatform.presentation.components.GreenPrimary)
             )
 
             Column(
@@ -72,7 +72,7 @@ fun CargaAcademicaItem(materia: CargaAcademicaEntity) {
                     // Badge de créditos
                     Surface(
                         shape = RoundedCornerShape(20.dp),
-                        color = GreenLight.copy(alpha = 0.15f)
+                        color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.GreenLight.copy(alpha = 0.15f)
                     ) {
                         Row(
                             modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
@@ -81,7 +81,7 @@ fun CargaAcademicaItem(materia: CargaAcademicaEntity) {
                             Icon(
                                 imageVector = Icons.Default.Star,
                                 contentDescription = null,
-                                tint = GreenPrimary,
+                                tint = _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.GreenPrimary,
                                 modifier = Modifier.size(14.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))
@@ -89,7 +89,7 @@ fun CargaAcademicaItem(materia: CargaAcademicaEntity) {
                                 text = "${materia.creditos} cr.",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.SemiBold,
-                                color = GreenPrimary
+                                color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.GreenPrimary
                             )
                         }
                     }
@@ -109,9 +109,21 @@ fun CargaAcademicaItem(materia: CargaAcademicaEntity) {
                 Spacer(modifier = Modifier.height(10.dp))
 
                 // Info rows
-                CargaInfoRow(Icons.Default.Group,    "Grupo",   materia.grupo)
-                CargaInfoRow(Icons.Default.Person,   "Docente", materia.docente)
-                CargaInfoRow(Icons.Default.Schedule, "Horario", materia.horario)
+                _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.CargaInfoRow(
+                    Icons.Default.Group,
+                    "Grupo",
+                    materia.grupo
+                )
+                _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.CargaInfoRow(
+                    Icons.Default.Person,
+                    "Docente",
+                    materia.docente
+                )
+                _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.CargaInfoRow(
+                    Icons.Default.Schedule,
+                    "Horario",
+                    materia.horario
+                )
             }
         }
     }
@@ -128,7 +140,7 @@ private fun CargaInfoRow(icon: ImageVector, label: String, value: String) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = GreenLight,
+            tint = _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.GreenLight,
             modifier = Modifier.size(16.dp)
         )
         Spacer(modifier = Modifier.width(8.dp))
