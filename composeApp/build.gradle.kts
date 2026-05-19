@@ -60,7 +60,8 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
-            implementation(libs.ktor.client.cio) //Motor Http para desktop
+            implementation(libs.ktor.client.cio)
+            implementation(libs.androidx.activity.ktx) //Motor Http para desktop
         }
     }
 }

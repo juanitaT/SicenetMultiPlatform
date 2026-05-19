@@ -8,7 +8,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.sicenetmultiplatform.SessionManager
 import com.example.sicenetmultiplatform.data.di.AppContainer
-
+import com.example.sicenetmultiplatform.presentation.screens.CalificacionesScreen
+import com.example.sicenetmultiplatform.presentation.screens.CardexScreen
+import com.example.sicenetmultiplatform.presentation.screens.CargaAcademicaScreen
+import com.example.sicenetmultiplatform.presentation.screens.LoginScreen
+import com.example.sicenetmultiplatform.presentation.screens.PerfilScreen
+import com.example.sicenetmultiplatform.presentation.viewmodel.CalificacionesViewModel
+import com.example.sicenetmultiplatform.presentation.viewmodel.CardexViewModel
+import com.example.sicenetmultiplatform.presentation.viewmodel.CargaAcademicaViewModel
+import com.example.sicenetmultiplatform.presentation.viewmodel.LoginViewModel
+import com.example.sicenetmultiplatform.presentation.viewmodel.PerfilViewModel
 
 
 @Composable
@@ -17,97 +26,79 @@ fun AppNavigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.LOGIN
+        startDestination = Routes.LOGIN
     ) {
 
         // Login
-        composable(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.LOGIN) {
+        composable(Routes.LOGIN) {
             val viewModel = remember {
-                _root_ide_package_.com.example.sicenetmultiplatform.presentation.viewmodel.LoginViewModel(
+                LoginViewModel(
                     networkRepository = AppContainer.networkRepository,
-                    localRepository = AppContainer.localRepository
+                    localRepository   = AppContainer.localRepository
                 )
             }
 
-            _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.LoginScreen(
+            LoginScreen(
                 viewModel = viewModel,
                 onLoginSuccess = {
-                    navController.navigate(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.PERFIL) {
-                        popUpTo(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.LOGIN) {
-                            _root_ide_package_.androidx.navigation.PopUpToBuilder.inclusive = true
-                        }
+                    navController.navigate(Routes.PERFIL) {
+                        popUpTo(Routes.LOGIN) { inclusive = true }
                     }
                 }
             )
         }
 
         // Perfil
-        composable(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.PERFIL) {
+        composable(Routes.PERFIL) {
             val viewModel = remember {
-                _root_ide_package_.com.example.sicenetmultiplatform.presentation.viewmodel.PerfilViewModel(
+                PerfilViewModel(
                     localRepository = AppContainer.localRepository,
-                    matricula = SessionManager.matricula
+                    matricula       = SessionManager.matricula
                 )
             }
-            _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.AppScaffold(
-                navController = navController
-            ) {
-                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilScreen(
-                    viewModel = viewModel
-                )
+            AppScaffold(navController = navController) {
+                PerfilScreen(viewModel = viewModel)
             }
         }
 
         // Carga Académica
-        composable(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.CARGA) {
+        composable(Routes.CARGA) {
             val viewModel = remember {
-                _root_ide_package_.com.example.sicenetmultiplatform.presentation.viewmodel.CargaAcademicaViewModel(
-                    localRepository = AppContainer.localRepository,
+                CargaAcademicaViewModel(
+                    localRepository   = AppContainer.localRepository,
                     networkRepository = AppContainer.networkRepository,
-                    matricula = SessionManager.matricula
+                    matricula         = SessionManager.matricula
                 )
             }
-            _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.AppScaffold(
-                navController = navController
-            ) {
-                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CargaAcademicaScreen(
-                    viewModel = viewModel
-                )
+            AppScaffold(navController = navController) {
+                CargaAcademicaScreen(viewModel = viewModel)
             }
         }
 
         // Cardex
-        composable(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.CARDEX) {
+        composable(Routes.CARDEX) {
             val viewModel = remember {
-                _root_ide_package_.com.example.sicenetmultiplatform.presentation.viewmodel.CardexViewModel(
-                    localRepository = AppContainer.localRepository,
+                CardexViewModel(
+                    localRepository   = AppContainer.localRepository,
                     networkRepository = AppContainer.networkRepository
                 )
             }
-            _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.AppScaffold(
-                navController = navController
-            ) {
-                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CardexScreen(
-                    viewModel = viewModel
-                )
+            AppScaffold(navController = navController) {
+                CardexScreen(viewModel = viewModel)
             }
         }
 
         // Calificaciones
-        composable(_root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.Routes.CALIFICACIONES) {
+        composable(Routes.CALIFICACIONES) {
             val viewModel = remember {
-                _root_ide_package_.com.example.sicenetmultiplatform.presentation.viewmodel.CalificacionesViewModel(
-                    localRepository = AppContainer.localRepository,
+                CalificacionesViewModel(
+                    localRepository   = AppContainer.localRepository,
                     networkRepository = AppContainer.networkRepository,
-                    matricula = SessionManager.matricula
+                    matricula         = SessionManager.matricula
                 )
             }
-            _root_ide_package_.com.example.sicenetmultiplatform.presentation.navigation.AppScaffold(
-                navController = navController
-            ) {
-                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CalificacionesScreen(
-                    viewModel = viewModel
-                )
+            AppScaffold(navController = navController) {
+                CalificacionesScreen(viewModel = viewModel)
             }
         }
     }
