@@ -16,10 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sicenetmultiplatform.data.local.entity.CardexEntity
 
-//import com.example.sicenetmultiplatform.data.local.entity.CardexEntity
-
-private val GreenPrimary = Color(0xFF2E7D32)
-
+// Colores del tema Azul
+private val BluePrimary = Color(0xFF1565C0)
+private val BlueDark    = Color(0xFF0D47A1)
+private val BlueLight   = Color(0xFFE3F2FD)
 
 @Composable
 fun CardexItem(materia: CardexEntity) {
@@ -28,17 +28,21 @@ fun CardexItem(materia: CardexEntity) {
     val enCurso    = materia.calificacion == 0
 
     val calColor = when {
-        materia.calificacion >= 80 -> Color(0xFF2E7D32)
-        materia.calificacion >= 70 -> Color(0xFF388E3C)
+        materia.calificacion >= 80 -> BlueDark
+        materia.calificacion >= 70 -> BluePrimary
         materia.calificacion >  0  -> Color(0xFFC62828)
         else                       -> Color.Gray
     }
 
-    val cardBackground = if (acreditado) Color(0xFFF9FFF9) else Color(0xFFFFF9F9)
+    val calBg = when {
+        materia.calificacion >= 70 -> BlueLight
+        materia.calificacion >  0  -> Color(0xFFFFEBEE)
+        else                       -> Color(0xFFF5F5F5)
+    }
 
     val statusColor = when {
         enCurso    -> Color.Gray
-        acreditado -> _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.GreenPrimary
+        acreditado -> BluePrimary
         else       -> Color(0xFFC62828)
     }
 
@@ -51,68 +55,70 @@ fun CardexItem(materia: CardexEntity) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 6.dp),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
-        colors = CardDefaults.cardColors(containerColor = cardBackground)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        shape = RoundedCornerShape(20.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Círculo con calificación
             Box(
                 modifier = Modifier
-                    .size(56.dp)
+                    .size(58.dp)
                     .clip(CircleShape)
-                    .background(calColor.copy(alpha = 0.12f)),
+                    .background(calBg),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = if (materia.calificacion > 0) "${materia.calificacion}" else "—",
-                    fontWeight = FontWeight.ExtraBold,
+                    fontWeight = FontWeight.Black,
                     color = calColor,
-                    fontSize = 18.sp
+                    fontSize = 20.sp
                 )
             }
 
-            Spacer(modifier = Modifier.width(14.dp))
+            Spacer(modifier = Modifier.width(18.dp))
 
             // Datos de la materia
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = materia.materia,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
-                    color = Color(0xFF1A1A1A),
-                    lineHeight = 18.sp
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    color = Color(0xFF263238),
+                    lineHeight = 20.sp
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(6.dp))
 
-                // Badge de estatus
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(6.dp))
-                        .background(statusColor.copy(alpha = 0.10f))
-                        .padding(horizontal = 8.dp, vertical = 2.dp)
-                ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    // Badge de estatus
+                    Surface(
+                        color = statusColor.copy(alpha = 0.1f),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Text(
+                            text = statusLabel,
+                            fontSize = 11.sp,
+                            color = statusColor,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
+                        )
+                    }
+                    
+                    Spacer(modifier = Modifier.width(12.dp))
+                    
                     Text(
-                        text = statusLabel,
-                        fontSize = 11.sp,
-                        color = statusColor,
-                        fontWeight = FontWeight.Medium
+                        text = "Periodo: ${materia.periodo}",
+                        fontSize = 12.sp,
+                        color = Color.Gray,
+                        fontStyle = FontStyle.Normal
                     )
                 }
-
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "Periodo: ${materia.periodo}",
-                    fontSize = 11.sp,
-                    color = Color.Gray,
-                    fontStyle = FontStyle.Italic
-                )
             }
         }
     }

@@ -18,22 +18,19 @@ import androidx.compose.ui.unit.sp
 import com.example.sicenetmultiplatform.presentation.components.CalificacionCard
 import com.example.sicenetmultiplatform.presentation.viewmodel.CalificacionesViewModel
 
-//import com.example.sicenetmultiplatform.presentation.components.CalificacionCard
-//import com.example.sicenetmultiplatform.presentation.viewmodel.CalificacionesViewModel
-
-private val GreenPrimary = Color(0xFF2E7D32)
-private val GreenLight   = Color(0xFF4CAF50)
-private val GreenDark    = Color(0xFF1B5E20)
-private val GreenSurface = Color(0xFFF1F8F1)
+// Paleta de colores en Azul
+private val BluePrimary = Color(0xFF1565C0)
+private val BlueLight   = Color(0xFF1E88E5)
+private val BlueDark    = Color(0xFF0D47A1)
+private val BlueSurface = Color(0xFFF5F7FA)
 
 /**
- * Pantalla de calificaciones finales y por unidad del alumno.
- * Basada en CalificacionesScreen.kt del proyecto Android original.
- *
- *
+ * * Pantalla de calificaciones finales y por unidad del alumno.
+ *  * Basada en CalificacionesScreen.kt del proyecto Android original.
+ *  *
  */
 @Composable
-fun CalificacionesScreen(viewModel: com.example.sicenetmultiplatform.presentation.viewmodel.CalificacionesViewModel) {
+fun CalificacionesScreen(viewModel: CalificacionesViewModel) {
 
     LaunchedEffect(Unit) {
         viewModel.verificarYSincronizar()
@@ -46,78 +43,76 @@ fun CalificacionesScreen(viewModel: com.example.sicenetmultiplatform.presentatio
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(_root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenSurface)
+            .background(BlueSurface)
     ) {
-        if (finales.isEmpty() || isLoading) {
-            // Estado de carga
+        if (finales.isEmpty() && isLoading) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 CircularProgressIndicator(
-                    color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
+                    color = BluePrimary,
                     modifier = Modifier.size(56.dp),
                     strokeWidth = 4.dp
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 Text(
-                    text = "Cargando calificaciones...",
-                    color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
-                    fontWeight = FontWeight.Medium,
+                    text = "Obteniendo calificaciones...",
+                    color = BluePrimary,
+                    fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
             }
         } else {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
 
-                // Header con gradiente
+                // Header con gradiente Azul
                 item {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(
                                 brush = Brush.verticalGradient(
-                                    colors = listOf(
-                                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenDark,
-                                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
-                                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight
-                                    )
+                                    colors = listOf(BlueDark, BluePrimary)
                                 ),
                                 shape = RoundedCornerShape(
-                                    bottomStart = 28.dp,
-                                    bottomEnd   = 28.dp
+                                    bottomStart = 32.dp,
+                                    bottomEnd   = 32.dp
                                 )
                             )
-                            .padding(
-                                top    = 36.dp,
-                                bottom = 28.dp,
-                                start  = 24.dp,
-                                end    = 24.dp
-                            )
+                            .padding(top = 40.dp, bottom = 32.dp, start = 24.dp, end = 24.dp)
                     ) {
                         Column(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "🎓 Reporte de Calificaciones",
+                                text = "Reporte de Calificaciones",
                                 style = MaterialTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.Bold,
+                                fontWeight = FontWeight.Black,
                                 color = Color.White,
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Center,
+                                letterSpacing = 1.sp
                             )
 
-                            Spacer(modifier = Modifier.height(6.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
 
-                            Text(
-                                text = "${finales.size} materias registradas",
-                                fontSize = 13.sp,
-                                color = Color.White.copy(alpha = 0.80f)
-                            )
+                            Surface(
+                                color = Color.White.copy(alpha = 0.15f),
+                                shape = RoundedCornerShape(20.dp)
+                            ) {
+                                Text(
+                                    text = "${finales.size} materias en este ciclo",
+                                    fontSize = 12.sp,
+                                    color = Color.White,
+                                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
 
-
-                            Spacer(modifier = Modifier.height(20.dp))
+                            Spacer(modifier = Modifier.height(28.dp))
+                            
                             val aprobadas  = finales.count { it.calificacionFinal >= 70 }
                             val reprobadas = finales.count { it.calificacionFinal in 1..69 }
                             val pendientes = finales.count { it.calificacionFinal == 0 }
@@ -126,18 +121,9 @@ fun CalificacionesScreen(viewModel: com.example.sicenetmultiplatform.presentatio
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceEvenly
                             ) {
-                                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CalifHeaderChip(
-                                    "✅ Aprob.",
-                                    "$aprobadas"
-                                )
-                                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CalifHeaderChip(
-                                    "❌ Repro.",
-                                    "$reprobadas"
-                                )
-                                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CalifHeaderChip(
-                                    "⏳ Pend.",
-                                    "$pendientes"
-                                )
+                                CalifHeaderChip("Aprobadas", "$aprobadas")
+                                CalifHeaderChip("Reprobadas", "$reprobadas")
+                                CalifHeaderChip("Pendientes", "$pendientes")
                             }
                         }
                     }
@@ -150,32 +136,33 @@ fun CalificacionesScreen(viewModel: com.example.sicenetmultiplatform.presentatio
                     val unidadesMateria = unidades.filter {
                         it.materia.equals(materiaFinal.materia, ignoreCase = true)
                     }
-                    _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.CalificacionCard(
+                    CalificacionCard(
                         materiaFinal = materiaFinal,
                         unidades = unidadesMateria
                     )
                 }
 
-                item { Spacer(modifier = Modifier.height(16.dp)) }
+                item { Spacer(modifier = Modifier.height(24.dp)) }
             }
         }
     }
 }
 
-// Chip de resumen en el header
 @Composable
 private fun CalifHeaderChip(label: String, value: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = value,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Black,
             color = Color.White,
-            fontSize = 22.sp
+            fontSize = 24.sp
         )
         Text(
-            text = label,
-            fontSize = 11.sp,
-            color = Color.White.copy(alpha = 0.85f)
+            text = label.uppercase(),
+            fontSize = 10.sp,
+            color = Color.White.copy(alpha = 0.7f),
+            fontWeight = FontWeight.Bold,
+            letterSpacing = 0.5.sp
         )
     }
 }

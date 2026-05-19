@@ -1,13 +1,17 @@
 package com.example.sicenetmultiplatform.presentation.navigation
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -16,18 +20,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sicenetmultiplatform.SessionManager
-//import com.example.sicenetmultiplatform.SessionManager
 import kotlinx.coroutines.launch
 
-private val GreenPrimary = Color(0xFF2E7D32)
-private val GreenLight   = Color(0xFF4CAF50)
-private val GreenDark    = Color(0xFF1B5E20)
+// Nueva paleta de colores en Azul
+private val BluePrimary = Color(0xFF1565C0)
+private val BlueLight   = Color(0xFF1E88E5)
+private val BlueDark    = Color(0xFF0D47A1)
+private val AccentColor = Color(0xFFBBDEFB)
 
 /**
- * Scaffold principal con TopAppBar y DrawerNavigation.
- * Reemplaza AppScaffold.kt del proyecto Android original.
- *
- *
+ * Scaffold principal con un diseño renovado y profesional en tonos azules.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,11 +45,14 @@ fun AppScaffold(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
+            ModalDrawerSheet(
+                drawerContainerColor = Color.White,
+                drawerShape = RoundedCornerShape(topEnd = 24.dp, bottomEnd = 24.dp)
+            ) {
                 DrawerContent(
                     onNavigate = { route ->
                         scope.launch { drawerState.close() }
-                        if (route == Routes.LOGIN) {
+                        if (route == "LOGOUT") {
                             showLogoutDialog = true
                         } else {
                             navController.navigate(route) {
@@ -61,12 +66,13 @@ fun AppScaffold(
     ) {
         Scaffold(
             topBar = {
-                TopAppBar(
+                CenterAlignedTopAppBar(
                     title = {
                         Text(
                             text = title,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 22.sp,
+                            letterSpacing = 1.sp
                         )
                     },
                     navigationIcon = {
@@ -78,20 +84,24 @@ fun AppScaffold(
                             )
                         }
                     },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor     = GreenPrimary,
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor     = BluePrimary,
                         titleContentColor  = Color.White
                     )
                 )
             }
         ) { padding ->
-            Box(modifier = Modifier.padding(padding)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .background(Color(0xFFF5F7FA))
+            ) {
                 content()
             }
         }
     }
 
-    // Diálogo de cerrar sesión
     if (showLogoutDialog) {
         AlertDialog(
             onDismissRequest = { showLogoutDialog = false },
@@ -99,19 +109,22 @@ fun AppScaffold(
                 Text(
                     text = "Cerrar Sesión",
                     fontWeight = FontWeight.Bold,
-                    color = GreenPrimary
+                    color = BluePrimary
                 )
             },
-            text = { Text("¿Está seguro que desea cerrar sesión?") },
+            text = { Text("¿Deseas salir de tu cuenta?") },
             confirmButton = {
-                TextButton(onClick = {
-                    showLogoutDialog = false
-                    SessionManager.cerrarSesion()
-                    navController.navigate(Routes.LOGIN) {
-                        popUpTo(0) { inclusive = true }
-                    }
-                }) {
-                    Text("Cerrar Sesión", color = GreenPrimary)
+                Button(
+                    onClick = {
+                        showLogoutDialog = false
+                        SessionManager.cerrarSesion()
+                        navController.navigate(Routes.LOGIN) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = BluePrimary)
+                ) {
+                    Text("Salir", color = Color.White)
                 }
             },
             dismissButton = {
@@ -119,75 +132,83 @@ fun AppScaffold(
                     Text("Cancelar", color = Color.Gray)
                 }
             },
-            shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(16.dp)
         )
     }
 }
 
-// ── Contenido del Drawer ───────────────────────────────────────────
 @Composable
 private fun DrawerContent(onNavigate: (String) -> Unit) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
+        modifier = Modifier.fillMaxSize()
     ) {
-        // Header con gradiente
+        // Header moderno con círculo y gradiente
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(180.dp)
+                .height(220.dp)
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = listOf(GreenDark, GreenPrimary, GreenLight)
+                        colors = listOf(BlueDark, BluePrimary)
                     )
                 ),
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Icon(
-                    imageVector = Icons.Default.School,
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(64.dp)
-                )
-                Spacer(modifier = Modifier.height(12.dp))
+                Box(
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape)
+                        .background(Color.White.copy(alpha = 0.2f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AccountBalance,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(48.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = "SICENET",
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Black,
                     color = Color.White,
                     fontSize = 28.sp
                 )
                 Text(
-                    text = "Sistema de Consulta",
-                    color = Color.White.copy(alpha = 0.9f),
-                    fontSize = 14.sp
+                    text = "Portal del Estudiante",
+                    color = AccentColor,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Light
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
-        DrawerItem(Icons.Default.Person,     "Perfil",           { onNavigate(Routes.PERFIL) })
-        DrawerItem(Icons.Default.School,     "Carga Académica",  { onNavigate(Routes.CARGA) })
-        DrawerItem(Icons.Default.Assignment, "Cardex",           { onNavigate(Routes.CARDEX) })
-        DrawerItem(Icons.Default.Grade,      "Calificaciones",   { onNavigate(Routes.CALIFICACIONES) })
+        // Items del Menú
+        DrawerItem(Icons.Default.Person, "Mi Perfil", { onNavigate(Routes.PERFIL) })
+        DrawerItem(Icons.Default.School, "Carga Académica", { onNavigate(Routes.CARGA) })
+        DrawerItem(Icons.Default.Assignment, "Cardex Escolar", { onNavigate(Routes.CARDEX) })
+        DrawerItem(Icons.Default.Grade, "Calificaciones", { onNavigate(Routes.CALIFICACIONES) })
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Divider(
-            color = GreenLight.copy(alpha = 0.3f),
-            modifier = Modifier.padding(horizontal = 16.dp)
+        HorizontalDivider(
+            modifier = Modifier.padding(horizontal = 24.dp),
+            thickness = 1.dp,
+            color = Color.LightGray.copy(alpha = 0.5f)
         )
 
         DrawerItem(
-            icon    = Icons.Default.ExitToApp,
+            icon    = Icons.Default.Logout,
             texto   = "Cerrar Sesión",
-            onClick = { onNavigate(Routes.LOGIN) },
+            onClick = { onNavigate("LOGOUT") },
             isLogout = true
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
@@ -198,28 +219,33 @@ private fun DrawerItem(
     onClick: () -> Unit,
     isLogout: Boolean = false
 ) {
-    val textColor = if (isLogout) Color(0xFFD32F2F) else Color.Black
-    val iconColor = if (isLogout) Color(0xFFD32F2F) else GreenPrimary
-
-    Row(
+    val contentColor = if (isLogout) Color(0xFFE53935) else Color(0xFF37474F)
+    
+    Surface(
+        onClick = onClick,
+        color = Color.Transparent,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() }
-            .padding(horizontal = 16.dp, vertical = 14.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 16.dp, vertical = 4.dp),
+        shape = RoundedCornerShape(12.dp)
     ) {
-        Icon(
-            imageVector    = icon,
-            contentDescription = null,
-            tint           = iconColor,
-            modifier       = Modifier.size(24.dp)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text       = texto,
-            fontSize   = 16.sp,
-            fontWeight = FontWeight.Medium,
-            color      = textColor
-        )
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = if (isLogout) contentColor else BluePrimary,
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(20.dp))
+            Text(
+                text = texto,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = contentColor
+            )
+        }
     }
 }

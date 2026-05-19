@@ -16,19 +16,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sicenetmultiplatform.presentation.viewmodel.PerfilViewModel
 
-//import com.example.sicenetmultiplatform.presentation.viewmodel.PerfilViewModel
-
-// ── Paleta de colores ──────────────────────────────────────────────
-private val GreenPrimary = Color(0xFF2E7D32)
-private val GreenLight   = Color(0xFF4CAF50)
-private val GreenDark    = Color(0xFF1B5E20)
+// Paleta de colores en Azul
+private val BluePrimary = Color(0xFF1565C0)
+private val BlueLight   = Color(0xFF1E88E5)
+private val BlueDark    = Color(0xFF0D47A1)
 
 /**
  * Pantalla del perfil académico del alumno.
  * Basada en PerfilScreen.kt del proyecto Android original.
  */
 @Composable
-fun PerfilScreen(viewModel: com.example.sicenetmultiplatform.presentation.viewmodel.PerfilViewModel) {
+fun PerfilScreen(viewModel: PerfilViewModel) {
 
     val perfil by viewModel.perfil.collectAsState()
 
@@ -37,16 +35,11 @@ fun PerfilScreen(viewModel: com.example.sicenetmultiplatform.presentation.viewmo
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenDark,
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight
-                    )
+                    colors = listOf(BlueDark, BluePrimary, BlueLight)
                 )
             )
     ) {
         if (perfil == null) {
-            // ── Estado de carga ────────────────────────────────────
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -54,14 +47,15 @@ fun PerfilScreen(viewModel: com.example.sicenetmultiplatform.presentation.viewmo
             ) {
                 CircularProgressIndicator(
                     color = Color.White,
-                    modifier = Modifier.size(64.dp)
+                    modifier = Modifier.size(64.dp),
+                    strokeWidth = 4.dp
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 Text(
-                    text = "Cargando perfil...",
+                    text = "Sincronizando perfil...",
                     color = Color.White,
                     fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Bold
                 )
             }
         } else {
@@ -71,133 +65,118 @@ fun PerfilScreen(viewModel: com.example.sicenetmultiplatform.presentation.viewmo
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .padding(24.dp),
+                    .padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-                // Título
                 Text(
-                    text = "Mi Perfil",
-                    fontWeight = FontWeight.Bold,
+                    text = "Información General",
+                    fontWeight = FontWeight.Black,
                     color = Color.White,
-                    fontSize = 36.sp
+                    fontSize = 30.sp,
+                    letterSpacing = 1.sp
                 )
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
-                // Tarjeta principal
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(24.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                    shape = RoundedCornerShape(28.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = Color.White.copy(alpha = 0.95f)
+                        containerColor = Color.White.copy(alpha = 0.98f)
                     )
                 ) {
-                    Column(modifier = Modifier.padding(32.dp)) {
+                    Column(modifier = Modifier.padding(24.dp)) {
 
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
-                            label = "Nombre",
+                        PerfilItem(
+                            label = "NOMBRE COMPLETO",
                             valor = p.nombre,
-                            valorSize = 24,
-                            valorColor = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
-                            valorWeight = FontWeight.Bold
+                            valorSize = 22,
+                            valorColor = BlueDark,
+                            valorWeight = FontWeight.Black
                         )
 
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
+                        PerfilDivider()
 
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
-                            label = "Matrícula",
-                            valor = p.matricula
-                        )
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Box(modifier = Modifier.weight(1f)) {
+                                PerfilItem(label = "MATRÍCULA", valor = p.matricula)
+                            }
+                            Box(modifier = Modifier.weight(1f)) {
+                                PerfilItem(label = "SEMESTRE", valor = p.semActual.toString())
+                            }
+                        }
 
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
+                        PerfilDivider()
 
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
-                            label = "Carrera",
+                        PerfilItem(
+                            label = "CARRERA",
                             valor = p.carrera,
-                            valorSize = 18
+                            valorSize = 17
                         )
 
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
+                        PerfilDivider()
 
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
-                            label = "Semestre Actual",
-                            valor = p.semActual.toString()
-                        )
-
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
-
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
-                            label = "Especialidad",
+                        PerfilItem(
+                            label = "ESPECIALIDAD",
                             valor = p.especialidad,
-                            valorSize = 18
+                            valorSize = 17
                         )
 
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
+                        PerfilDivider()
 
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
-                            label = "Créditos Acumulados",
-                            valor = p.cdtosAcumulados.toString()
-                        )
-
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
-
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
-                            label = "Créditos Actuales",
-                            valor = p.cdtosActuales.toString()
-                        )
-
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilDivider()
-
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.PerfilItem(
-                            label = "Estatus",
-                            valor = p.estatus
-                        )
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Box(modifier = Modifier.weight(1f)) {
+                                PerfilItem(label = "CDTOS. ACUMULADOS", valor = p.cdtosAcumulados.toString())
+                            }
+                            Box(modifier = Modifier.weight(1f)) {
+                                PerfilItem(label = "ESTATUS", valor = p.estatus)
+                            }
+                        }
                     }
                 }
 
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
             }
         }
     }
 }
 
-// ── Componente reutilizable para cada campo del perfil ─────────────
 @Composable
 private fun PerfilItem(
     label: String,
     valor: String,
-    valorSize: Int = 20,
-    valorColor: Color = Color.Black,
-    valorWeight: FontWeight = FontWeight.SemiBold
+    valorSize: Int = 18,
+    valorColor: Color = Color(0xFF37474F),
+    valorWeight: FontWeight = FontWeight.Bold
 ) {
     Column {
         Text(
             text = label,
-            fontSize = 14.sp,
-            color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary.copy(alpha = 0.7f),
-            fontWeight = FontWeight.Medium
+            fontSize = 11.sp,
+            color = BluePrimary,
+            fontWeight = FontWeight.Black,
+            letterSpacing = 0.5.sp
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = valor,
             fontSize = valorSize.sp,
             color = valorColor,
             fontWeight = valorWeight,
-            lineHeight = (valorSize + 6).sp
+            lineHeight = (valorSize + 4).sp
         )
     }
 }
 
-//Divisor entre campos
 @Composable
 private fun PerfilDivider() {
-    Spacer(modifier = Modifier.height(24.dp))
+    Spacer(modifier = Modifier.height(20.dp))
     HorizontalDivider(
-        color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight.copy(alpha = 0.3f),
+        color = Color(0xFFECEFF1),
         thickness = 1.dp
     )
-    Spacer(modifier = Modifier.height(24.dp))
+    Spacer(modifier = Modifier.height(20.dp))
 }

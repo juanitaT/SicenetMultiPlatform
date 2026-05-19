@@ -20,15 +20,13 @@ import androidx.compose.ui.unit.sp
 import com.example.sicenetmultiplatform.data.local.entity.CalificacionFinalEntity
 import com.example.sicenetmultiplatform.data.local.entity.CalificacionUnidadEntity
 
-//import com.example.sicenetmultiplatform.data.local.entity.CalificacionFinalEntity
-//import com.example.sicenetmultiplatform.data.local.entity.CalificacionUnidadEntity
+// Colores del tema Azul
+private val BluePrimary = Color(0xFF1565C0)
+private val BlueLight   = Color(0xFFE3F2FD)
+private val BlueDark    = Color(0xFF0D47A1)
 
 /**
- * Componente que muestra la calificación final y por unidad de una materia.
- * Incluye botón para expandir/colapsar unidades cuando hay más de 5.
- * Basado en CalificacionCard.kt del proyecto Android original.
- *
- * @author Erick Omar Pérez González
+ * Componente que muestra la calificación final y por unidad con tema azul.
  */
 @Composable
 fun CalificacionCard(
@@ -38,11 +36,12 @@ fun CalificacionCard(
     val calFinal = materiaFinal.calificacionFinal
     var expandido by remember { mutableStateOf(false) }
 
+    // Lógica de colores basada en azul
     val (scoreColor, scoreBg) = when {
-        calFinal >= 80 -> Pair(Color(0xFF1B5E20), Color(0xFFE8F5E9))
-        calFinal >= 70 -> Pair(Color(0xFF2E7D32), Color(0xFFF1F8F1))
+        calFinal >= 80 -> Pair(BlueDark, BlueLight)
+        calFinal >= 70 -> Pair(BluePrimary, Color(0xFFF0F7FF))
         calFinal >  0  -> Pair(Color(0xFFC62828), Color(0xFFFFEBEE))
-        else           -> Pair(Color.Gray,         Color(0xFFF5F5F5))
+        else           -> Pair(Color.Gray, Color(0xFFF5F5F5))
     }
 
     val unidadesValidas = unidades.filter {
@@ -54,12 +53,12 @@ fun CalificacionCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 6.dp),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        shape = RoundedCornerShape(20.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(20.dp)) {
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -68,133 +67,135 @@ fun CalificacionCard(
                 Text(
                     text = materiaFinal.materia,
                     modifier = Modifier.weight(1f),
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
-                    color = Color(0xFF1A1A1A),
-                    lineHeight = 18.sp
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp,
+                    color = Color(0xFF263238),
+                    lineHeight = 20.sp
                 )
                 Spacer(modifier = Modifier.width(12.dp))
 
-                // Círculo con calificación final
                 Box(
                     modifier = Modifier
-                        .size(50.dp)
+                        .size(54.dp)
                         .clip(CircleShape)
                         .background(scoreBg),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = if (calFinal == 0) "—" else "$calFinal",
-                        fontWeight = FontWeight.ExtraBold,
+                        fontWeight = FontWeight.Black,
                         color = scoreColor,
-                        fontSize = 16.sp
+                        fontSize = 18.sp
                     )
                 }
             }
 
-            // Sección de unidades
             if (unidadesValidas.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(10.dp))
-                HorizontalDivider(color = Color(0xFFE0E0E0), thickness = 0.8.dp)
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+                HorizontalDivider(color = Color(0xFFECEFF1), thickness = 1.dp)
+                Spacer(modifier = Modifier.height(12.dp))
 
-                // Primera fila: primeras 5 unidades + botón
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Unidades:",
-                        fontSize = 11.sp,
+                        text = "UNIDADES",
+                        fontSize = 10.sp,
                         color = Color.Gray,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Black,
+                        letterSpacing = 0.5.sp
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(12.dp))
 
-                    // Primeras 5 unidades siempre visibles
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                         modifier = Modifier.weight(1f)
                     ) {
                         unidadesValidas.take(5).forEach { unidad ->
-                            _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.UnidadBadge(
-                                unidad
-                            )
+                            UnidadBadge(unidad)
                         }
                     }
 
-                    // Botón expandir si hay más de 5
                     if (tienemasDecinco) {
-                        Spacer(modifier = Modifier.width(4.dp))
                         IconButton(
                             onClick = { expandido = !expandido },
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(32.dp)
                         ) {
                             Icon(
                                 imageVector = if (expandido)
                                     Icons.Default.KeyboardArrowUp
                                 else
                                     Icons.Default.KeyboardArrowDown,
-                                contentDescription = if (expandido) "Colapsar" else "Ver más",
-                                tint = Color(0xFF2E7D32),
-                                modifier = Modifier.size(20.dp)
+                                contentDescription = null,
+                                tint = BluePrimary
                             )
                         }
                     }
                 }
 
-                // Unidades adicionales (expandibles)
-                if (tienemasDecinco) {
-                    AnimatedVisibility(visible = expandido) {
-                        Column {
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(start = 68.dp)
-                            ) {
-                                unidadesValidas.drop(5).forEach { unidad ->
-                                    _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.UnidadBadge(
-                                        unidad
-                                    )
-                                }
+                AnimatedVisibility(visible = expandido && tienemasDecinco) {
+                    Column {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        FlowRow(
+                            mainAxisSpacing = 8.dp,
+                            crossAxisSpacing = 8.dp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 65.dp)
+                        ) {
+                            unidadesValidas.drop(5).forEach { unidad ->
+                                UnidadBadge(unidad)
                             }
                         }
                     }
                 }
 
             } else {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = "⏳ Calificaciones de unidades pendientes",
-                    fontSize = 11.sp,
-                    color = Color.Gray
+                    text = "Calificaciones parciales no disponibles",
+                    fontSize = 12.sp,
+                    color = Color.LightGray,
+                    fontWeight = FontWeight.Medium
                 )
             }
         }
     }
 }
 
-// Badge reutilizable para cada unidad
 @Composable
 private fun UnidadBadge(unidad: CalificacionUnidadEntity) {
-    val uColor = if (unidad.calificacion >= 70)
-        Color(0xFF2E7D32) else Color(0xFFC62828)
-    val uBg = if (unidad.calificacion >= 70)
-        Color(0xFFE8F5E9) else Color(0xFFFFEBEE)
+    val uColor = if (unidad.calificacion >= 70) BluePrimary else Color(0xFFD32F2F)
+    val uBg = if (unidad.calificacion >= 70) BlueLight else Color(0xFFFFEBEE)
 
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(uBg)
-            .padding(horizontal = 8.dp, vertical = 4.dp)
+    Surface(
+        color = uBg,
+        shape = RoundedCornerShape(8.dp),
     ) {
         Text(
             text = "U${unidad.unidad}: ${unidad.calificacion}",
             fontSize = 11.sp,
             color = uColor,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
         )
+    }
+}
+
+@Composable
+private fun FlowRow(
+    modifier: Modifier = Modifier,
+    mainAxisSpacing: androidx.compose.ui.unit.Dp = 0.dp,
+    crossAxisSpacing: androidx.compose.ui.unit.Dp = 0.dp,
+    content: @Composable () -> Unit
+) {
+    // Implementación simplificada para multiplatform si no está disponible FlowRow de Material3
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(mainAxisSpacing),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        content()
     }
 }

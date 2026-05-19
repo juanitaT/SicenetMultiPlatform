@@ -1,4 +1,5 @@
 package com.example.sicenetmultiplatform.presentation.screens
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,23 +17,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sicenetmultiplatform.presentation.components.CargaAcademicaItem
 import com.example.sicenetmultiplatform.presentation.viewmodel.CargaAcademicaViewModel
-//import com.example.sicenetmultiplatform.presentation.components.CargaAcademicaItem
-//import com.example.sicenetmultiplatform.presentation.viewmodel.CargaAcademicaViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-private val GreenPrimary = Color(0xFF2E7D32)
-private val GreenLight   = Color(0xFF4CAF50)
-private val GreenDark    = Color(0xFF1B5E20)
+// Paleta de colores en Azul
+private val BluePrimary = Color(0xFF1565C0)
+private val BlueLight   = Color(0xFF1E88E5)
+private val BlueDark    = Color(0xFF0D47A1)
+private val BlueSurface = Color(0xFFF5F7FA)
 
 /**
  * Pantalla de carga académica del alumno.
- * Basada en CargaAcademicaScreen.kt del proyecto Android original.
- *
- * @author
  */
 @Composable
-fun CargaAcademicaScreen(viewModel: com.example.sicenetmultiplatform.presentation.viewmodel.CargaAcademicaViewModel) {
+fun CargaAcademicaScreen(viewModel: CargaAcademicaViewModel) {
 
     LaunchedEffect(Unit) {
         viewModel.verificarYSincronizar()
@@ -45,135 +43,128 @@ fun CargaAcademicaScreen(viewModel: com.example.sicenetmultiplatform.presentatio
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF1F8F1))
+            .background(BlueSurface)
     ) {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        if (carga.isEmpty() && isLoading) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator(
+                    color = BluePrimary,
+                    modifier = Modifier.size(56.dp)
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = "Sincronizando carga...",
+                    color = BluePrimary,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+            }
+        } else {
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
 
-            // Header con gradiente
-            item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = listOf(
-                                    _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenDark,
-                                    _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
-                                    _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight
-                                )
-                            ),
-                            shape = RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp)
-                        )
-                        .padding(top = 36.dp, bottom = 28.dp, start = 24.dp, end = 24.dp)
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            text = "📚 Carga Académica",
-                            style = MaterialTheme.typography.headlineSmall,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White,
-                            textAlign = TextAlign.Center
-                        )
-
-                        Spacer(modifier = Modifier.height(6.dp))
-
-                        // Última actualización
-                        ultimaActualizacion?.let {
-                            val fmt = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-                            Text(
-                                text = "Actualizado: ${fmt.format(Date(it))}",
-                                fontSize = 12.sp,
-                                color = Color.White.copy(alpha = 0.80f),
-                                textAlign = TextAlign.Center
+                // Header con gradiente Azul
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    colors = listOf(BlueDark, BluePrimary)
+                                ),
+                                shape = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)
                             )
-                        }
+                            .padding(top = 40.dp, bottom = 32.dp, start = 24.dp, end = 24.dp)
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                text = "Carga Académica",
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.Black,
+                                color = Color.White,
+                                textAlign = TextAlign.Center,
+                                letterSpacing = 1.sp
+                            )
 
-                        // Chips de estadísticas
-                        if (carga.isNotEmpty()) {
-                            Spacer(modifier = Modifier.height(20.dp))
-                            val totalCreditos = carga.sumOf { it.creditos }
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceEvenly
-                            ) {
-                                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CargaStatChip(
-                                    "Materias",
-                                    "${carga.size}",
-                                    Color.White
-                                )
-                                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CargaStatChip(
-                                    "Créditos",
-                                    "$totalCreditos",
-                                    Color(0xFFA5D6A7)
-                                )
-                                _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.CargaStatChip(
-                                    "Semestre",
-                                    carga.firstOrNull()?.semestre?.toString() ?: "-",
-                                    Color(0xFFE3F2FD)
-                                )
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            ultimaActualizacion?.let {
+                                val fmt = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+                                Surface(
+                                    color = Color.White.copy(alpha = 0.15f),
+                                    shape = RoundedCornerShape(20.dp)
+                                ) {
+                                    Text(
+                                        text = "Actualizado: ${fmt.format(Date(it))}",
+                                        fontSize = 11.sp,
+                                        color = Color.White,
+                                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                                        textAlign = TextAlign.Center,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                }
+                            }
+
+                            // Chips de estadísticas
+                            if (carga.isNotEmpty()) {
+                                Spacer(modifier = Modifier.height(28.dp))
+                                val totalCreditos = carga.sumOf { it.creditos }
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                ) {
+                                    CargaStatChip("Materias", "${carga.size}", Modifier.weight(1f))
+                                    CargaStatChip("Créditos", "$totalCreditos", Modifier.weight(1f))
+                                    CargaStatChip("Semestre", (carga.firstOrNull()?.semestre?.toString() ?: "-"), Modifier.weight(1f))
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            item { Spacer(modifier = Modifier.height(16.dp)) }
-
-            // Estado de carga o lista
-            if (carga.isEmpty() || isLoading) {
-                item {
-                    Box(
-                        modifier = Modifier
-                            .fillParentMaxSize()
-                            .padding(top = 80.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            CircularProgressIndicator(
-                                color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
-                                modifier = Modifier.size(56.dp)
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Text(
-                                text = "Cargando materias...",
-                                color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
-                                fontWeight = FontWeight.Medium,
-                                fontSize = 16.sp
-                            )
-                        }
-                    }
-                }
-            } else {
-                items(carga) { materia ->
-                    _root_ide_package_.com.example.sicenetmultiplatform.presentation.components.CargaAcademicaItem(
-                        materia
-                    )
-                }
                 item { Spacer(modifier = Modifier.height(16.dp)) }
+
+                items(carga) { materia ->
+                    CargaAcademicaItem(materia)
+                }
+                
+                item { Spacer(modifier = Modifier.height(24.dp)) }
             }
         }
     }
 }
 
-// Chip de estadística en el header
 @Composable
-private fun CargaStatChip(label: String, value: String, chipColor: Color) {
-    Card(
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = chipColor.copy(alpha = 0.25f)
-        ),
-        elevation = CardDefaults.cardElevation(0.dp)
+private fun CargaStatChip(label: String, value: String, modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(16.dp),
+        color = Color.White.copy(alpha = 0.12f),
+        border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.2f))
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
+            modifier = Modifier.padding(vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(value, fontWeight = FontWeight.Bold, color = Color.White, fontSize = 20.sp)
-            Text(label, color = Color.White.copy(alpha = 0.85f), fontSize = 11.sp)
+            Text(
+                text = value,
+                fontWeight = FontWeight.Black,
+                color = Color.White,
+                fontSize = 22.sp
+            )
+            Text(
+                text = label.uppercase(),
+                color = Color.White.copy(alpha = 0.8f),
+                fontSize = 9.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 0.5.sp
+            )
         }
     }
 }

@@ -20,22 +20,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sicenetmultiplatform.presentation.viewmodel.LoginViewModel
 
-//import com.example.sicenetmultiplatform.presentation.viewmodel.LoginViewModel
-
-// Paleta de colores
-private val GreenPrimary = Color(0xFF2E7D32)
-private val GreenLight   = Color(0xFF4CAF50)
-private val GreenDark    = Color(0xFF1B5E20)
+// Paleta de colores en Azul
+private val BluePrimary = Color(0xFF1565C0)
+private val BlueLight   = Color(0xFF1E88E5)
+private val BlueDark    = Color(0xFF0D47A1)
 
 /**
+ * Pantalla de autenticación del alumno con diseño renovado en Azul.
  * Pantalla de autenticación del alumno.
- * Maneja login online y offline.
- * Basada en LoginScreen.kt del proyecto Android original.
- *
+ * * Maneja Login online y offline.
+ * * Basada en LoginScreen.kt del proyecto Android original.
  */
 @Composable
 fun LoginScreen(
-    viewModel: com.example.sicenetmultiplatform.presentation.viewmodel.LoginViewModel,
+    viewModel: LoginViewModel,
     onLoginSuccess: () -> Unit
 ) {
     var usuario  by remember { mutableStateOf("") }
@@ -49,11 +47,7 @@ fun LoginScreen(
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenDark,
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
-                        _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight
-                    )
+                    colors = listOf(BlueDark, BluePrimary, BlueLight)
                 )
             )
     ) {
@@ -69,9 +63,9 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
                 shape = RoundedCornerShape(24.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 12.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color.White.copy(alpha = 0.95f)
+                    containerColor = Color.White.copy(alpha = 0.98f)
                 )
             ) {
                 Column(
@@ -82,18 +76,19 @@ fun LoginScreen(
                     // Título
                     Text(
                         text = "SICENET",
-                        fontWeight = FontWeight.Bold,
-                        color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
+                        fontWeight = FontWeight.Black,
+                        color = BluePrimary,
                         fontSize = 42.sp,
                         letterSpacing = 2.sp
                     )
                     Text(
-                        text = "Bienvenido",
-                        color = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary.copy(alpha = 0.7f),
-                        fontSize = 16.sp
+                        text = "Portal de Alumnos",
+                        color = BluePrimary.copy(alpha = 0.6f),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium
                     )
 
-                    Spacer(modifier = Modifier.height(32.dp))
+                    Spacer(modifier = Modifier.height(40.dp))
 
                     // Campo usuario
                     OutlinedTextField(
@@ -102,21 +97,21 @@ fun LoginScreen(
                             usuario = it
                             viewModel.limpiarError()
                         },
-                        label = { Text("Usuario") },
+                        label = { Text("Número de Control") },
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.Person,
                                 contentDescription = "Usuario",
-                                tint = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary
+                                tint = BluePrimary
                             )
                         },
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(16.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor   = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
-                            unfocusedBorderColor = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight.copy(alpha = 0.5f),
-                            focusedLabelColor    = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
-                            cursorColor          = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary
+                            focusedBorderColor   = BluePrimary,
+                            unfocusedBorderColor = BlueLight.copy(alpha = 0.3f),
+                            focusedLabelColor    = BluePrimary,
+                            cursorColor          = BluePrimary
                         ),
                         singleLine = true,
                         enabled = !isLoading
@@ -136,7 +131,7 @@ fun LoginScreen(
                             Icon(
                                 imageVector = Icons.Default.Lock,
                                 contentDescription = "Contraseña",
-                                tint = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary
+                                tint = BluePrimary
                             )
                         },
                         visualTransformation = PasswordVisualTransformation(),
@@ -144,12 +139,12 @@ fun LoginScreen(
                             keyboardType = KeyboardType.Password
                         ),
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(16.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor   = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
-                            unfocusedBorderColor = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenLight.copy(alpha = 0.5f),
-                            focusedLabelColor    = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary,
-                            cursorColor          = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary
+                            focusedBorderColor   = BluePrimary,
+                            unfocusedBorderColor = BlueLight.copy(alpha = 0.3f),
+                            focusedLabelColor    = BluePrimary,
+                            cursorColor          = BluePrimary
                         ),
                         singleLine = true,
                         enabled = !isLoading
@@ -157,18 +152,24 @@ fun LoginScreen(
 
                     // Mensaje de error
                     error?.let {
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = it,
-                            color = Color(0xFFD32F2F),
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Medium
-                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Surface(
+                            color = Color(0xFFFFEBEE),
+                            shape = RoundedCornerShape(8.dp)
+                        ) {
+                            Text(
+                                text = it,
+                                color = Color(0xFFD32F2F),
+                                fontSize = 13.sp,
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(32.dp))
 
-                    //Botón login
+                    // Botón login
                     Button(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -180,13 +181,12 @@ fun LoginScreen(
                                 onSuccess = onLoginSuccess
                             )
                         },
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(16.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = _root_ide_package_.com.example.sicenetmultiplatform.presentation.screens.GreenPrimary
+                            containerColor = BluePrimary
                         ),
                         elevation = ButtonDefaults.buttonElevation(
-                            defaultElevation  = 4.dp,
-                            pressedElevation  = 8.dp
+                            defaultElevation  = 4.dp
                         ),
                         enabled = !isLoading
                     ) {
@@ -194,13 +194,14 @@ fun LoginScreen(
                             CircularProgressIndicator(
                                 color = Color.White,
                                 modifier = Modifier.size(24.dp),
-                                strokeWidth = 2.dp
+                                strokeWidth = 2.5.dp
                             )
                         } else {
                             Text(
-                                text = "Iniciar sesión",
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.SemiBold
+                                text = "INGRESAR",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 1.sp
                             )
                         }
                     }
